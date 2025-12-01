@@ -1,0 +1,21 @@
+import request from '@/utils/request'
+
+// 用户登录
+export function login(data) {
+  return request.post('/auth/login', data)
+}
+
+// 用户注册
+export function register(data) {
+  return request.post('/auth/register', data)
+}
+
+// 发送邮箱验证码
+export function sendCode(email) {
+  return request.post('/auth/send-code', { email })
+}
+
+// 获取当前用户信息
+export function getCurrentUser() {
+  return request.get('/auth/me')
+}
