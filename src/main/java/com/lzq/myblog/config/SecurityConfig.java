@@ -61,6 +61,8 @@ public class SecurityConfig {
                         "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 // 公开接口：登录、注册
                 .requestMatchers("/api/auth/**").permitAll()
+                // 公开接口：Markdown 渲染（用于预览）
+                .requestMatchers("/api/markdown/**").permitAll()
                 // 公开接口：查看博文列表、详情、搜索
                 .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
                 // 公开接口：查看评论

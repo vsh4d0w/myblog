@@ -3,9 +3,11 @@ package com.lzq.myblog.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.lzq.myblog.common.Result;
 import com.lzq.myblog.dto.PostCreateDTO;
+import com.lzq.myblog.dto.PostDetailDTO;
 import com.lzq.myblog.dto.PostUpdateDTO;
 import com.lzq.myblog.entity.BlogPost;
 import com.lzq.myblog.service.BlogPostService;
+import com.lzq.myblog.service.MarkdownService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,13 +21,14 @@ import org.springframework.web.bind.annotation.*;
 /**
  * 博文控制器
  */
-@Tag(name = "博文管理", description = "博文的查询、创建、修改、删除操作")
+@Tag(name = "博文管理", description = "博文的查询、创建、修改、删除操作，支持 Markdown 格式")
 @RestController
 @RequestMapping("/api/posts")
 @RequiredArgsConstructor
 public class PostController {
     
     private final BlogPostService blogPostService;
+    private final MarkdownService markdownService;
     
     /**
      * 获取博文列表（分页）
@@ -40,15 +43,20 @@ public class PostController {
     }
     
     /**
-     * 获取博文详情
+     * 获取博文详情（包含 Markdown 渲染后的 HTML）
      */
-    @Operation(summary = "获取博文详情", description = "根据 ID 获取博文详情，同时增加浏览量")
+    @Operation(summary = "获取博文详情", description = "根据 ID 获取博文详情，返回 Markdown 原文和渲染后的 HTML")
     @GetMapping("/{id}")
-    public Result<BlogPost> getDetail(@Parameter(description = "博文ID") @PathVariable Long id) {
+    public Result<PostDetailDTO> getDetail(@Parameter(description = "博文ID") @PathVariable Long id) {
         BlogPost post = blogPostService.getDetail(id);
         // 增加浏览量
         blogPostService.incrementViewCount(id);
-        return Result.success(post);
+        
+        // 渲染 Markdown 为 HTML
+        String contentHtml = markdownService.renderToHtml(post.getContent());
+        PostDetailDTO detailDTO = PostDetailDTO.fromEntity(post, contentHtml);
+        
+        return Result.success(detailDTO);
     }
     
     /**
