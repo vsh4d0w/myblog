@@ -4,6 +4,9 @@ import com.lzq.myblog.common.Result;
 import com.lzq.myblog.dto.CommentCreateDTO;
 import com.lzq.myblog.entity.Comment;
 import com.lzq.myblog.service.CommentService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -16,6 +19,7 @@ import java.util.List;
 /**
  * 评论控制器
  */
+@Tag(name = "评论管理", description = "评论的查询、创建、删除操作")
 @RestController
 @RequestMapping("/api/comments")
 @RequiredArgsConstructor
@@ -26,8 +30,9 @@ public class CommentController {
     /**
      * 获取博文的所有评论
      */
+    @Operation(summary = "获取博文评论", description = "获取指定博文的所有评论")
     @GetMapping("/post/{postId}")
-    public Result<List<Comment>> getByPostId(@PathVariable Long postId) {
+    public Result<List<Comment>> getByPostId(@Parameter(description = "博文ID") @PathVariable Long postId) {
         List<Comment> comments = commentService.getByPostId(postId);
         return Result.success(comments);
     }
@@ -35,8 +40,9 @@ public class CommentController {
     /**
      * 获取某条评论的回复
      */
+    @Operation(summary = "获取评论回复", description = "获取指定评论的所有回复")
     @GetMapping("/{commentId}/replies")
-    public Result<List<Comment>> getReplies(@PathVariable Long commentId) {
+    public Result<List<Comment>> getReplies(@Parameter(description = "评论ID") @PathVariable Long commentId) {
         List<Comment> replies = commentService.getReplies(commentId);
         return Result.success(replies);
     }
@@ -44,6 +50,7 @@ public class CommentController {
     /**
      * 创建评论（需要登录）
      */
+    @Operation(summary = "创建评论", description = "发表评论，需要登录")
     @PostMapping
     public Result<Comment> create(@Valid @RequestBody CommentCreateDTO createDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -59,8 +66,9 @@ public class CommentController {
     /**
      * 删除评论（评论作者或管理员可删除）
      */
+    @Operation(summary = "删除评论", description = "删除评论，评论作者或管理员可操作")
     @DeleteMapping("/{id}")
-    public Result<Void> delete(@PathVariable Long id) {
+    public Result<Void> delete(@Parameter(description = "评论ID") @PathVariable Long id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated()) {
             return Result.unauthorized();

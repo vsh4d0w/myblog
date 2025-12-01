@@ -56,6 +56,9 @@ public class SecurityConfig {
             
             // 配置请求授权
             .authorizeHttpRequests(auth -> auth
+                // Knife4j/Swagger 文档路径
+                .requestMatchers("/doc.html", "/webjars/**", "/swagger-resources/**", 
+                        "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 // 公开接口：登录、注册
                 .requestMatchers("/api/auth/**").permitAll()
                 // 公开接口：查看博文列表、详情、搜索

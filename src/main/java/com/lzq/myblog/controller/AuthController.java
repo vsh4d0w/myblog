@@ -5,6 +5,9 @@ import com.lzq.myblog.dto.UserLoginDTO;
 import com.lzq.myblog.dto.UserRegisterDTO;
 import com.lzq.myblog.entity.User;
 import com.lzq.myblog.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -17,6 +20,7 @@ import java.util.Map;
 /**
  * 认证控制器
  */
+@Tag(name = "认证管理", description = "用户登录、注册、获取当前用户信息")
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
@@ -27,6 +31,7 @@ public class AuthController {
     /**
      * 用户登录
      */
+    @Operation(summary = "用户登录", description = "通过用户名和密码登录，返回 JWT Token")
     @PostMapping("/login")
     public Result<Map<String, Object>> login(@Valid @RequestBody UserLoginDTO loginDTO) {
         String token = userService.login(loginDTO);
@@ -42,6 +47,7 @@ public class AuthController {
     /**
      * 用户注册（游客注册）
      */
+    @Operation(summary = "用户注册", description = "游客注册账号，注册后角色为 GUEST")
     @PostMapping("/register")
     public Result<User> register(@Valid @RequestBody UserRegisterDTO registerDTO) {
         User user = userService.register(registerDTO);
@@ -51,6 +57,7 @@ public class AuthController {
     /**
      * 获取当前登录用户信息
      */
+    @Operation(summary = "获取当前用户", description = "获取当前登录用户的信息，需要 JWT 认证")
     @GetMapping("/me")
     public Result<Map<String, Object>> getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
