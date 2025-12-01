@@ -10,6 +10,9 @@ import com.lzq.myblog.entity.BlogPost;
 import com.lzq.myblog.exception.BusinessException;
 import com.lzq.myblog.mapper.BlogPostMapper;
 import com.lzq.myblog.service.BlogPostService;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -20,6 +23,9 @@ import org.springframework.util.StringUtils;
 public class BlogPostServiceImpl extends ServiceImpl<BlogPostMapper, BlogPost> implements BlogPostService {
     
     @Override
+    @Caching(evict = {
+        @CacheEvict(value = "posts", allEntries = true)
+    })
     public BlogPost create(PostCreateDTO createDTO, Long authorId) {
         BlogPost post = new BlogPost();
         post.setTitle(createDTO.getTitle());
@@ -44,6 +50,10 @@ public class BlogPostServiceImpl extends ServiceImpl<BlogPostMapper, BlogPost> i
     }
     
     @Override
+    @Caching(evict = {
+        @CacheEvict(value = "posts", allEntries = true),
+        @CacheEvict(value = "post", key = "#updateDTO.id")
+    })
     public BlogPost update(PostUpdateDTO updateDTO) {
         BlogPost post = baseMapper.selectById(updateDTO.getId());
         if (post == null) {
@@ -74,6 +84,10 @@ public class BlogPostServiceImpl extends ServiceImpl<BlogPostMapper, BlogPost> i
     }
     
     @Override
+    @Caching(evict = {
+        @CacheEvict(value = "posts", allEntries = true),
+        @CacheEvict(value = "post", key = "#postId")
+    })
     public boolean delete(Long postId) {
         BlogPost post = baseMapper.selectById(postId);
         if (post == null) {
@@ -83,6 +97,7 @@ public class BlogPostServiceImpl extends ServiceImpl<BlogPostMapper, BlogPost> i
     }
     
     @Override
+    @Cacheable(value = "post", key = "#postId", unless = "#result == null")
     public BlogPost getDetail(Long postId) {
         BlogPost post = baseMapper.selectById(postId);
         if (post == null) {
@@ -92,6 +107,7 @@ public class BlogPostServiceImpl extends ServiceImpl<BlogPostMapper, BlogPost> i
     }
     
     @Override
+    @Cacheable(value = "posts", key = "'list:' + #page + ':' + #size")
     public IPage<BlogPost> list(int page, int size) {
         Page<BlogPost> pageParam = new Page<>(page, size);
         LambdaQueryWrapper<BlogPost> wrapper = new LambdaQueryWrapper<>();
@@ -101,6 +117,7 @@ public class BlogPostServiceImpl extends ServiceImpl<BlogPostMapper, BlogPost> i
     }
     
     @Override
+    @Cacheable(value = "posts", key = "'category:' + #category + ':' + #page + ':' + #size")
     public IPage<BlogPost> listByCategory(String category, int page, int size) {
         Page<BlogPost> pageParam = new Page<>(page, size);
         LambdaQueryWrapper<BlogPost> wrapper = new LambdaQueryWrapper<>();

@@ -101,6 +101,78 @@ VALUES
 ('Java学习笔记', '# Java学习笔记\n\n## 基础语法\n\nJava是一门面向对象的编程语言...', 'Java基础学习笔记', 'Learn', 1, 0, 1);
 
 -- =====================================================
+-- 6. 标签表 (tag)
+-- =====================================================
+CREATE TABLE `tag` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '标签ID',
+  `name` VARCHAR(50) NOT NULL UNIQUE COMMENT '标签名称',
+  `color` VARCHAR(20) DEFAULT '#409eff' COMMENT '标签颜色',
+  `use_count` INT NOT NULL DEFAULT 0 COMMENT '使用次数',
+  `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='标签表';
+
+-- =====================================================
+-- 7. 博文-标签关联表 (post_tag)
+-- =====================================================
+CREATE TABLE `post_tag` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `post_id` BIGINT NOT NULL COMMENT '博文ID',
+  `tag_id` BIGINT NOT NULL COMMENT '标签ID',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_post_tag` (`post_id`, `tag_id`),
+  KEY `idx_post` (`post_id`),
+  KEY `idx_tag` (`tag_id`),
+  CONSTRAINT `fk_pt_post` FOREIGN KEY (`post_id`) REFERENCES `blog_post` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_pt_tag` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='博文标签关联表';
+
+-- =====================================================
+-- 8. 点赞表 (post_like)
+-- =====================================================
+CREATE TABLE `post_like` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `post_id` BIGINT NOT NULL COMMENT '博文ID',
+  `user_id` BIGINT NOT NULL COMMENT '用户ID',
+  `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_post_user` (`post_id`, `user_id`),
+  KEY `idx_post` (`post_id`),
+  KEY `idx_user` (`user_id`),
+  CONSTRAINT `fk_like_post` FOREIGN KEY (`post_id`) REFERENCES `blog_post` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_like_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='点赞表';
+
+-- =====================================================
+-- 9. 收藏表 (post_favorite)
+-- =====================================================
+CREATE TABLE `post_favorite` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT 'ID',
+  `post_id` BIGINT NOT NULL COMMENT '博文ID',
+  `user_id` BIGINT NOT NULL COMMENT '用户ID',
+  `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_post_user` (`post_id`, `user_id`),
+  KEY `idx_post` (`post_id`),
+  KEY `idx_user` (`user_id`),
+  CONSTRAINT `fk_fav_post` FOREIGN KEY (`post_id`) REFERENCES `blog_post` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_fav_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='收藏表';
+
+-- =====================================================
+-- 10. 插入示例标签
+-- =====================================================
+INSERT INTO `tag` (`name`, `color`, `use_count`) VALUES
+('CTF', '#f56c6c', 0),
+('Web安全', '#e6a23c', 0),
+('Java', '#409eff', 0),
+('Spring Boot', '#67c23a', 0),
+('学习笔记', '#909399', 0),
+('生活随笔', '#00d4ff', 0);
+
+-- =====================================================
 -- 完成提示
 -- =====================================================
 SELECT '数据库初始化完成！' AS message;
