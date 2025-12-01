@@ -67,10 +67,14 @@
                 class="comment-item"
               >
                 <div class="comment-header">
-                  <el-avatar :size="36" :icon="UserFilled" />
+                  <el-avatar 
+                    :size="40" 
+                    :src="getImageUrl(comment.authorAvatar)" 
+                    :icon="UserFilled" 
+                  />
                   <div class="comment-info">
-                    <span class="comment-author">{{ comment.authorName }}</span>
-                    <span class="comment-time">{{ formatDate(comment.createdTime) }}</span>
+                    <span class="comment-author">{{ comment.authorNickname || comment.authorName }}</span>
+                    <span class="comment-time">{{ formatDate(comment.createTime) }}</span>
                   </div>
                 </div>
                 <div class="comment-body">{{ comment.content }}</div>
@@ -95,6 +99,7 @@ import { getPostDetail } from '@/api/post'
 import { getCommentsByPost, createComment } from '@/api/comment'
 import { User, Calendar, Folder, View, UserFilled } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
+import { getImageUrl } from '@/utils/common'
 
 const route = useRoute()
 const userStore = useUserStore()

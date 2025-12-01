@@ -11,10 +11,7 @@ export function uploadImage(file, type = 'images') {
   return request({
     url: '/upload/image',
     method: 'post',
-    data: formData,
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
+    data: formData
   })
 }
 
@@ -28,10 +25,7 @@ export function uploadAvatar(file) {
   return request({
     url: '/upload/avatar',
     method: 'post',
-    data: formData,
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
+    data: formData
   })
 }
 
@@ -45,9 +39,6 @@ export function uploadCover(file) {
   return request({
     url: '/upload/cover',
     method: 'post',
-    data: formData,
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
+    data: formData
   })
 }

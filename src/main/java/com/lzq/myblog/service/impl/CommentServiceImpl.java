@@ -6,6 +6,7 @@ import com.lzq.myblog.entity.Comment;
 import com.lzq.myblog.exception.BusinessException;
 import com.lzq.myblog.mapper.CommentMapper;
 import com.lzq.myblog.service.CommentService;
+import com.lzq.myblog.vo.CommentVO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -51,6 +52,11 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     }
     
     @Override
+    public List<CommentVO> getByPostIdWithUser(Long postId) {
+        return baseMapper.selectByPostIdWithUser(postId);
+    }
+    
+    @Override
     public List<Comment> getByUserId(Long userId) {
         return baseMapper.selectByUserId(userId);
     }
@@ -69,5 +75,10 @@ public class CommentServiceImpl extends ServiceImpl<CommentMapper, Comment> impl
     @Override
     public List<Comment> getReplies(Long parentId) {
         return baseMapper.selectReplies(parentId);
+    }
+    
+    @Override
+    public List<CommentVO> getRepliesWithUser(Long parentId) {
+        return baseMapper.selectRepliesWithUser(parentId);
     }
 }

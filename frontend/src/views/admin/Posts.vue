@@ -69,19 +69,33 @@
           <el-input v-model="postForm.title" placeholder="请输入标题" />
         </el-form-item>
         
-        <el-form-item label="分类" prop="categoryId">
-          <el-select v-model="postForm.categoryId" placeholder="请选择分类">
+        <el-form-item label="分类" prop="category">
+          <el-select v-model="postForm.category" placeholder="请选择分类">
             <el-option
               v-for="cat in categories"
               :key="cat.id"
               :label="cat.name"
-              :value="cat.id"
+              :value="cat.name"
             />
           </el-select>
         </el-form-item>
         
         <el-form-item label="内容" prop="content">
+          <div class="editor-toolbar">
+            <el-upload
+              ref="uploadRef"
+              :show-file-list="false"
+              :http-request="handleImageUpload"
+              accept="image/*"
+            >
+              <el-button type="info" :icon="Picture" :loading="uploading">
+                {{ uploading ? '上传中...' : '插入图片' }}
+              </el-button>
+            </el-upload>
+            <span class="tip">支持 Markdown 格式，上传图片后会自动插入到内容中</span>
+          </div>
           <el-input
+            ref="contentRef"
             v-model="postForm.content"
             type="textarea"
             :rows="15"
@@ -112,7 +126,8 @@ import { ref, reactive, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { getPosts, createPost, updatePost, deletePost } from '@/api/post'
 import { getCategories } from '@/api/category'
-import { Plus } from '@element-plus/icons-vue'
+import { uploadImage } from '@/api/upload'
+import { Plus, Picture } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 
 const router = useRouter()
@@ -127,18 +142,22 @@ const total = ref(0)
 const editorVisible = ref(false)
 const editingPost = ref(null)
 const saving = ref(false)
+const uploading = ref(false)
 const formRef = ref(null)
+const contentRef = ref(null)
+const uploadRef = ref(null)
 
 const postForm = reactive({
   title: '',
   content: '',
-  categoryId: null,
+  category: '',
   status: 1
 })
 
 const rules = {
   title: [{ required: true, message: '请输入标题', trigger: 'blur' }],
-  content: [{ required: true, message: '请输入内容', trigger: 'blur' }]
+  content: [{ required: true, message: '请输入内容', trigger: 'blur' }],
+  category: [{ required: true, message: '请选择分类', trigger: 'change' }]
 }
 
 const formatDate = (dateStr) => {
@@ -172,17 +191,39 @@ const fetchPosts = async () => {
   }
 }
 
+// 图片上传处理
+const handleImageUpload = async ({ file }) => {
+  uploading.value = true
+  try {
+    const res = await uploadImage(file, 'posts')
+    if (res.code === 200 && res.data?.url) {
+      // 获取图片URL并插入到内容中
+      const imageUrl = res.data.url
+      const markdownImage = `![${file.name}](http://localhost:8080${imageUrl})\n`
+      postForm.content += markdownImage
+      ElMessage.success('图片上传成功，已插入到内容中')
+    } else {
+      ElMessage.error(res.message || '上传失败')
+    }
+  } catch (error) {
+    console.error('上传图片失败:', error)
+    ElMessage.error('上传图片失败')
+  } finally {
+    uploading.value = false
+  }
+}
+
 const openEditor = (post = null) => {
   editingPost.value = post
   if (post) {
     postForm.title = post.title
     postForm.content = post.content
-    postForm.categoryId = post.categoryId
+    postForm.category = post.categoryName || post.category || ''
     postForm.status = post.status
   } else {
     postForm.title = ''
     postForm.content = ''
-    postForm.categoryId = null
+    postForm.category = ''
     postForm.status = 1
   }
   editorVisible.value = true
@@ -263,6 +304,18 @@ onMounted(() => {
     margin-top: 20px;
     display: flex;
     justify-content: flex-end;
+  }
+}
+
+.editor-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+  
+  .tip {
+    font-size: 12px;
+    color: #909399;
   }
 }
 </style>

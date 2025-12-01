@@ -53,4 +53,22 @@ public interface UserService extends IService<User> {
      * @return 是否成功
      */
     boolean deleteUser(Long userId);
+    
+    /**
+     * 更新用户信息（昵称、头像）
+     * @param userId 用户ID
+     * @param nickname 昵称
+     * @param avatar 头像URL
+     * @return 更新后的用户
+     */
+    User updateUserInfo(Long userId, String nickname, String avatar);
+    
+    /**
+     * 修改密码
+     * @param userId 用户ID
+     * @param oldPassword 旧密码
+     * @param newPassword 新密码
+     * @return 是否成功
+     */
+    boolean updatePassword(Long userId, String oldPassword, String newPassword);
 }

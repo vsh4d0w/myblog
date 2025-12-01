@@ -16,5 +16,9 @@ public class WebConfig implements WebMvcConfigurer {
         // 映射上传文件目录
         registry.addResourceHandler("/uploads/**")
                 .addResourceLocations("file:" + uploadPath + "/");
+        
+        // 映射静态图片目录
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("classpath:/static/images/");
     }
 }

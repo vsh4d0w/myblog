@@ -18,11 +18,14 @@
           <template v-if="userStore.isLoggedIn">
             <el-dropdown @command="handleCommand">
               <span class="user-dropdown">
-                <el-avatar :size="32" :icon="UserFilled" />
-                <span class="username">{{ userStore.user?.username }}</span>
+                <el-avatar :size="32" :src="userAvatarUrl" :icon="UserFilled" />
+                <span class="username">{{ userStore.nickname }}</span>
               </span>
               <template #dropdown>
                 <el-dropdown-menu>
+                  <el-dropdown-item command="profile">
+                    <el-icon><User /></el-icon>个人中心
+                  </el-dropdown-item>
                   <el-dropdown-item v-if="userStore.isAdmin" command="admin">
                     <el-icon><Setting /></el-icon>管理后台
                   </el-dropdown-item>
@@ -56,12 +59,17 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store/user'
-import { Edit, UserFilled, Setting, SwitchButton } from '@element-plus/icons-vue'
+import { getAvatarUrl } from '@/utils/common'
+import { Edit, UserFilled, User, Setting, SwitchButton } from '@element-plus/icons-vue'
 
 const router = useRouter()
 const userStore = useUserStore()
+
+// 计算用户头像URL
+const userAvatarUrl = computed(() => getAvatarUrl(userStore.userInfo?.avatar))
 
 const goHome = () => {
   router.push('/')
@@ -76,7 +84,9 @@ const goRegister = () => {
 }
 
 const handleCommand = async (command) => {
-  if (command === 'admin') {
+  if (command === 'profile') {
+    router.push('/profile')
+  } else if (command === 'admin') {
     router.push('/admin')
   } else if (command === 'logout') {
     await userStore.logout()

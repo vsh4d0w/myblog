@@ -9,7 +9,7 @@
         <el-radio-button
           v-for="cat in categories"
           :key="cat.id"
-          :label="cat.id"
+          :label="cat.name"
         >
           {{ cat.name }}
         </el-radio-button>
@@ -27,7 +27,40 @@
       </template>
       
       <template #default>
-        <div class="post-items">
+        <!-- 分类分组显示 -->
+        <div v-if="!currentCategory && groupedPosts.length > 0" class="grouped-posts">
+          <div v-for="group in groupedPosts" :key="group.category" class="category-group">
+            <div class="category-header">
+              <el-icon><Folder /></el-icon>
+              <span>{{ group.category }}</span>
+              <el-tag size="small" type="info">{{ group.posts.length }}</el-tag>
+            </div>
+            <div class="post-items">
+              <div
+                v-for="post in group.posts"
+                :key="post.id"
+                class="post-item"
+                @click="goToPost(post.id)"
+              >
+                <h3 class="post-title">{{ post.title }}</h3>
+                <p class="post-summary">{{ post.summary }}</p>
+                <div class="post-meta">
+                  <span class="author">
+                    <el-icon><User /></el-icon>
+                    {{ post.authorName }}
+                  </span>
+                  <span class="date">
+                    <el-icon><Calendar /></el-icon>
+                    {{ formatDate(post.createdTime) }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- 单分类列表显示 -->
+        <div v-else class="post-items">
           <div
             v-for="post in posts"
             :key="post.id"
@@ -73,7 +106,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { getPosts, getPostsByCategory } from '@/api/post'
 import { getCategories } from '@/api/category'
@@ -86,8 +119,27 @@ const posts = ref([])
 const categories = ref([])
 const currentCategory = ref(null)
 const page = ref(1)
-const size = ref(10)
+const size = ref(100) // 获取更多文章用于分组显示
 const total = ref(0)
+
+// 按分类分组文章
+const groupedPosts = computed(() => {
+  if (posts.value.length === 0) return []
+  
+  const groups = {}
+  posts.value.forEach(post => {
+    const cat = post.category || post.categoryName || '未分类'
+    if (!groups[cat]) {
+      groups[cat] = []
+    }
+    groups[cat].push(post)
+  })
+  
+  return Object.entries(groups).map(([category, categoryPosts]) => ({
+    category,
+    posts: categoryPosts
+  })).sort((a, b) => b.posts.length - a.posts.length)
+})
 
 const formatDate = (dateStr) => {
   if (!dateStr) return ''
@@ -111,9 +163,10 @@ const fetchPosts = async () => {
   try {
     let res
     if (currentCategory.value) {
+      // 使用分类名称查询
       res = await getPostsByCategory(currentCategory.value, {
         page: page.value,
-        size: size.value
+        size: 50
       })
     } else {
       res = await getPosts({
@@ -166,6 +219,54 @@ onMounted(() => {
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+// 分类分组样式
+.grouped-posts {
+  .category-group {
+    margin-bottom: 30px;
+    
+    .category-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+      border-radius: 8px 8px 0 0;
+      font-size: 16px;
+      font-weight: 600;
+      
+      .el-icon {
+        font-size: 18px;
+      }
+      
+      .el-tag {
+        margin-left: auto;
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        border: none;
+      }
+    }
+    
+    .post-items {
+      border: 1px solid #ebeef5;
+      border-top: none;
+      border-radius: 0 0 8px 8px;
+      overflow: hidden;
+      
+      .post-item {
+        margin-bottom: 0;
+        border-radius: 0;
+        box-shadow: none;
+        border-bottom: 1px solid #ebeef5;
+        
+        &:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+  }
 }
 
 .post-items {

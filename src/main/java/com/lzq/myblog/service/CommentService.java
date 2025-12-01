@@ -3,6 +3,7 @@ package com.lzq.myblog.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.lzq.myblog.dto.CommentCreateDTO;
 import com.lzq.myblog.entity.Comment;
+import com.lzq.myblog.vo.CommentVO;
 
 import java.util.List;
 
@@ -36,6 +37,13 @@ public interface CommentService extends IService<Comment> {
     List<Comment> getByPostId(Long postId);
     
     /**
+     * 获取博文的所有评论（包含用户信息）
+     * @param postId 博文ID
+     * @return 评论列表（含用户信息）
+     */
+    List<CommentVO> getByPostIdWithUser(Long postId);
+    
+    /**
      * 获取用户的所有评论
      * @param userId 用户ID
      * @return 评论列表
@@ -56,4 +64,11 @@ public interface CommentService extends IService<Comment> {
      * @return 回复列表
      */
     List<Comment> getReplies(Long parentId);
+    
+    /**
+     * 获取某条评论的所有回复（包含用户信息）
+     * @param parentId 父评论ID
+     * @return 回复列表（含用户信息）
+     */
+    List<CommentVO> getRepliesWithUser(Long parentId);
 }

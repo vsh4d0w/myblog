@@ -55,8 +55,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         User user = new User();
         user.setUsername(registerDTO.getUsername());
         user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
-        user.setNickname(registerDTO.getNickname() != null ? registerDTO.getNickname() : registerDTO.getUsername());
-        user.setEmail(registerDTO.getEmail());
+        user.setNickname(registerDTO.getUsername());  // 昵称默认使用用户名
         user.setRole("GUEST");  // 注册用户默认为游客
         user.setStatus(1);
         
@@ -106,5 +105,41 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
         
         return baseMapper.deleteById(userId) > 0;
+    }
+    
+    @Override
+    public User updateUserInfo(Long userId, String nickname, String avatar) {
+        User user = baseMapper.selectById(userId);
+        if (user == null) {
+            throw new BusinessException("用户不存在");
+        }
+        
+        if (nickname != null && !nickname.trim().isEmpty()) {
+            user.setNickname(nickname.trim());
+        }
+        if (avatar != null && !avatar.trim().isEmpty()) {
+            user.setAvatar(avatar.trim());
+        }
+        
+        baseMapper.updateById(user);
+        user.setPassword(null);
+        return user;
+    }
+    
+    @Override
+    public boolean updatePassword(Long userId, String oldPassword, String newPassword) {
+        User user = baseMapper.selectById(userId);
+        if (user == null) {
+            throw new BusinessException("用户不存在");
+        }
+        
+        // 验证旧密码
+        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+            throw new BusinessException("原密码错误");
+        }
+        
+        // 更新密码
+        user.setPassword(passwordEncoder.encode(newPassword));
+        return baseMapper.updateById(user) > 0;
     }
 }

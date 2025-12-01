@@ -31,6 +31,12 @@ const routes = [
         name: 'Search',
         component: () => import('@/views/guest/Search.vue'),
         meta: { title: '搜索' }
+      },
+      {
+        path: 'profile',
+        name: 'Profile',
+        component: () => import('@/views/guest/Profile.vue'),
+        meta: { title: '个人中心', requiresAuth: true }
       }
     ]
   },

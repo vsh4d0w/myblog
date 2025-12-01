@@ -4,6 +4,7 @@ import com.lzq.myblog.common.Result;
 import com.lzq.myblog.dto.CommentCreateDTO;
 import com.lzq.myblog.entity.Comment;
 import com.lzq.myblog.service.CommentService;
+import com.lzq.myblog.vo.CommentVO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,22 +29,22 @@ public class CommentController {
     private final CommentService commentService;
     
     /**
-     * 获取博文的所有评论
+     * 获取博文的所有评论（包含用户信息）
      */
-    @Operation(summary = "获取博文评论", description = "获取指定博文的所有评论")
+    @Operation(summary = "获取博文评论", description = "获取指定博文的所有评论，包含评论者头像和用户名")
     @GetMapping("/post/{postId}")
-    public Result<List<Comment>> getByPostId(@Parameter(description = "博文ID") @PathVariable Long postId) {
-        List<Comment> comments = commentService.getByPostId(postId);
+    public Result<List<CommentVO>> getByPostId(@Parameter(description = "博文ID") @PathVariable Long postId) {
+        List<CommentVO> comments = commentService.getByPostIdWithUser(postId);
         return Result.success(comments);
     }
     
     /**
-     * 获取某条评论的回复
+     * 获取某条评论的回复（包含用户信息）
      */
-    @Operation(summary = "获取评论回复", description = "获取指定评论的所有回复")
+    @Operation(summary = "获取评论回复", description = "获取指定评论的所有回复，包含评论者头像和用户名")
     @GetMapping("/{commentId}/replies")
-    public Result<List<Comment>> getReplies(@Parameter(description = "评论ID") @PathVariable Long commentId) {
-        List<Comment> replies = commentService.getReplies(commentId);
+    public Result<List<CommentVO>> getReplies(@Parameter(description = "评论ID") @PathVariable Long commentId) {
+        List<CommentVO> replies = commentService.getRepliesWithUser(commentId);
         return Result.success(replies);
     }
     

@@ -19,3 +19,13 @@ export function sendCode(email) {
 export function getCurrentUser() {
   return request.get('/auth/me')
 }
+
+// 更新用户信息
+export function updateProfile(data) {
+  return request.put('/auth/profile', data)
+}
+
+// 修改密码
+export function updatePassword(data) {
+  return request.put('/auth/password', data)
+}

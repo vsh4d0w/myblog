@@ -59,16 +59,18 @@ public class SecurityConfig {
                 // Knife4j/Swagger 文档路径
                 .requestMatchers("/doc.html", "/webjars/**", "/swagger-resources/**", 
                         "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                // 静态资源：上传的文件和图片
+                .requestMatchers("/uploads/**", "/images/**").permitAll()
                 // 公开接口：登录、注册
                 .requestMatchers("/api/auth/**").permitAll()
+                // 公开接口：文件上传（需要登录，但先放行，在controller中验证）
+                .requestMatchers("/api/upload/**").authenticated()
                 // 公开接口：Markdown 渲染（用于预览）
                 .requestMatchers("/api/markdown/**").permitAll()
                 // 公开接口：查看博文列表、详情、搜索
                 .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
                 // 公开接口：查看评论
                 .requestMatchers(HttpMethod.GET, "/api/comments/**").permitAll()
-                // 公开接口：查看标签
-                .requestMatchers(HttpMethod.GET, "/api/tags/**").permitAll()
                 // 公开接口：查看分类
                 .requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
                 // 管理员接口

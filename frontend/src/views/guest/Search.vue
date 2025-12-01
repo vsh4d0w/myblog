@@ -95,8 +95,10 @@ const handleSearch = async () => {
   
   try {
     const res = await searchPosts(keyword.value)
+    console.log('搜索结果:', res) // 调试用
     if (res.code === 200) {
-      posts.value = res.data || []
+      // 处理分页数据结构
+      posts.value = res.data?.records || res.data || []
     }
   } catch (error) {
     console.error('搜索失败:', error)
