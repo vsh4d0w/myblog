@@ -3,6 +3,7 @@ package com.lzq.myblog.service.impl;
 import com.lzq.myblog.service.CacheService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -12,10 +13,12 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Redis 缓存服务实现类
+ * 仅在 spring.cache.type=redis 时启用
  */
 @Slf4j
 @Service
 @RequiredArgsConstructor
+@ConditionalOnProperty(name = "spring.cache.type", havingValue = "redis")
 public class CacheServiceImpl implements CacheService {
     
     private final RedisTemplate<String, Object> redisTemplate;

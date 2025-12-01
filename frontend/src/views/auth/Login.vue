@@ -83,22 +83,18 @@ const handleLogin = async () => {
   
   loading.value = true
   try {
-    const result = await userStore.login(form.username, form.password)
-    if (result.success) {
-      ElMessage.success('登录成功')
-      
-      // 如果是管理员，跳转到后台；否则跳转到之前的页面或首页
-      const redirect = route.query.redirect || '/'
-      if (userStore.isAdmin) {
-        router.push('/admin')
-      } else {
-        router.push(redirect)
-      }
+    await userStore.loginAction(form)
+    ElMessage.success('登录成功')
+    
+    // 如果是管理员，跳转到后台；否则跳转到之前的页面或首页
+    const redirect = route.query.redirect || '/'
+    if (userStore.isAdmin) {
+      router.push('/admin')
     } else {
-      ElMessage.error(result.message || '登录失败')
+      router.push(redirect)
     }
   } catch (error) {
-    ElMessage.error('登录失败，请稍后重试')
+    ElMessage.error(error.message || '登录失败，请稍后重试')
   } finally {
     loading.value = false
   }

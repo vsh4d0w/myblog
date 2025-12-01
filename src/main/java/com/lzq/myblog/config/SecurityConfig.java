@@ -67,6 +67,10 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
                 // 公开接口：查看评论
                 .requestMatchers(HttpMethod.GET, "/api/comments/**").permitAll()
+                // 公开接口：查看标签
+                .requestMatchers(HttpMethod.GET, "/api/tags/**").permitAll()
+                // 公开接口：查看分类
+                .requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
                 // 管理员接口
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 // 其他接口需要认证

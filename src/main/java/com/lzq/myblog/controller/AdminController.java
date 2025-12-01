@@ -1,6 +1,9 @@
 package com.lzq.myblog.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lzq.myblog.common.Result;
+import com.lzq.myblog.entity.Comment;
 import com.lzq.myblog.entity.User;
 import com.lzq.myblog.service.CommentService;
 import com.lzq.myblog.service.UserService;
@@ -11,7 +14,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 管理员控制器
@@ -72,5 +77,44 @@ public class AdminController {
         commentService.updateStatus(id, status);
         String message = status == 1 ? "评论已显示" : "评论已隐藏";
         return Result.success(message, null);
+    }
+    
+    /**
+     * 获取所有评论列表（分页）
+     */
+    @Operation(summary = "获取所有评论", description = "分页获取所有评论")
+    @GetMapping("/comments")
+    public Result<Map<String, Object>> getAllComments(
+            @Parameter(description = "页码") @RequestParam(defaultValue = "1") Integer page,
+            @Parameter(description = "每页数量") @RequestParam(defaultValue = "10") Integer size,
+            @Parameter(description = "状态筛选") @RequestParam(required = false) Integer status) {
+        
+        Page<Comment> pageParam = new Page<>(page, size);
+        LambdaQueryWrapper<Comment> queryWrapper = new LambdaQueryWrapper<>();
+        
+        if (status != null) {
+            queryWrapper.eq(Comment::getStatus, status);
+        }
+        queryWrapper.orderByDesc(Comment::getCreateTime);
+        
+        Page<Comment> result = commentService.page(pageParam, queryWrapper);
+        
+        Map<String, Object> data = new HashMap<>();
+        data.put("records", result.getRecords());
+        data.put("total", result.getTotal());
+        data.put("pages", result.getPages());
+        data.put("current", result.getCurrent());
+        
+        return Result.success(data);
+    }
+    
+    /**
+     * 删除评论
+     */
+    @Operation(summary = "删除评论", description = "删除指定评论")
+    @DeleteMapping("/comments/{id}")
+    public Result<Void> deleteComment(@Parameter(description = "评论ID") @PathVariable Long id) {
+        commentService.removeById(id);
+        return Result.success("评论已删除", null);
     }
 }
