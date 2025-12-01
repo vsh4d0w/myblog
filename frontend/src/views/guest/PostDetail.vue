@@ -33,7 +33,7 @@
             </div>
           </header>
           
-          <div class="post-content" v-html="post.contentHtml"></div>
+          <div class="post-content" v-html="processedContentHtml"></div>
           
           <!-- 评论区 -->
           <section class="comment-section">
@@ -92,14 +92,16 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, nextTick, watch, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useUserStore } from '@/store/user'
 import { getPostDetail } from '@/api/post'
 import { getCommentsByPost, createComment } from '@/api/comment'
 import { User, Calendar, Folder, View, UserFilled } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
-import { getImageUrl } from '@/utils/common'
+import { getImageUrl, API_BASE_URL } from '@/utils/common'
+import hljs from 'highlight.js'
+import 'highlight.js/styles/atom-one-dark.css'
 
 const route = useRoute()
 const userStore = useUserStore()
@@ -109,6 +111,35 @@ const post = ref(null)
 const comments = ref([])
 const newComment = ref('')
 const submitting = ref(false)
+
+// 处理文章内容中的图片路径，添加后端地址前缀
+const processedContentHtml = computed(() => {
+  if (!post.value?.contentHtml) return ''
+  // 将 /uploads/ 开头的图片路径替换为完整 URL
+  return post.value.contentHtml.replace(
+    /src="(\/uploads\/[^"]+)"/g,
+    `src="${API_BASE_URL}$1"`
+  )
+})
+
+// 代码高亮
+const highlightCode = () => {
+  nextTick(() => {
+    const codeBlocks = document.querySelectorAll('.post-content pre code')
+    codeBlocks.forEach((block) => {
+      // 移除已高亮的标记，重新高亮
+      block.removeAttribute('data-highlighted')
+      hljs.highlightElement(block)
+    })
+  })
+}
+
+// 监听文章内容变化，自动高亮代码
+watch(processedContentHtml, (newVal) => {
+  if (newVal) {
+    highlightCode()
+  }
+})
 
 const formatDate = (dateStr) => {
   if (!dateStr) return ''
@@ -126,6 +157,7 @@ const fetchPost = async () => {
     const res = await getPostDetail(route.params.id)
     if (res.code === 200) {
       post.value = res.data
+      // 代码高亮由 watch 自动处理
     }
   } catch (error) {
     console.error('获取文章失败:', error)
@@ -238,20 +270,33 @@ onMounted(() => {
     background: #f5f7fa;
     padding: 2px 6px;
     border-radius: 4px;
-    font-family: monospace;
+    font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+    font-size: 0.9em;
+    color: #e83e8c;
   }
   
   :deep(pre) {
-    background: #2d2d2d;
-    color: #ccc;
-    padding: 15px;
+    background: #282c34 !important;
+    padding: 16px 20px;
     border-radius: 8px;
     overflow-x: auto;
+    margin: 16px 0;
+    position: relative;
+    border: 1px solid #3e4451;
     
     code {
-      background: none;
+      background: transparent !important;
       padding: 0;
+      font-family: 'Fira Code', 'Monaco', 'Consolas', monospace;
+      font-size: 14px;
+      line-height: 1.7;
+      color: #abb2bf;
     }
+  }
+  
+  :deep(pre code.hljs) {
+    background: transparent !important;
+    padding: 0;
   }
   
   :deep(blockquote) {
@@ -264,6 +309,7 @@ onMounted(() => {
   :deep(img) {
     max-width: 100%;
     border-radius: 8px;
+    margin: 10px 0;
   }
 }
 

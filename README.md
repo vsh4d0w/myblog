@@ -35,16 +35,13 @@ mysql -u root -p < src/main/resources/sql/init.sql
 ### 2. 启动后端服务（端口 8080）
 
 ```bash
-# 在项目根目录下执行
-./mvnw spring-boot:run
+cd /Users/lanzhiqiang/code/java_code/myBlog && ./mvnw spring-boot:run
 ```
 
 ### 3. 启动前端服务（端口 5173）
 
 ```bash
-cd frontend
-npm install  # 首次运行需要安装依赖
-npm run dev
+cd /Users/lanzhiqiang/code/java_code/myBlog/frontend && npm run dev
 ```
 
 ## 访问地址

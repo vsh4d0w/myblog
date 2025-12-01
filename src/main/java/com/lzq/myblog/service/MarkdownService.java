@@ -5,13 +5,17 @@ import org.commonmark.ext.autolink.AutolinkExtension;
 import org.commonmark.ext.gfm.strikethrough.StrikethroughExtension;
 import org.commonmark.ext.gfm.tables.TablesExtension;
 import org.commonmark.ext.task.list.items.TaskListItemsExtension;
+import org.commonmark.node.FencedCodeBlock;
+import org.commonmark.node.IndentedCodeBlock;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.AttributeProvider;
 import org.commonmark.renderer.html.HtmlRenderer;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Markdown 服务
@@ -37,11 +41,36 @@ public class MarkdownService {
                 .extensions(extensions)
                 .build();
         
-        // 创建 HTML 渲染器
+        // 创建 HTML 渲染器，添加代码块语言类名支持
         this.renderer = HtmlRenderer.builder()
                 .extensions(extensions)
                 .softbreak("<br />")  // 软换行转为 <br>
+                .attributeProviderFactory(context -> new CodeBlockAttributeProvider())
                 .build();
+    }
+    
+    /**
+     * 代码块属性提供器，为代码块添加语言类名
+     */
+    private static class CodeBlockAttributeProvider implements AttributeProvider {
+        @Override
+        public void setAttributes(Node node, String tagName, Map<String, String> attributes) {
+            if (node instanceof FencedCodeBlock) {
+                FencedCodeBlock codeBlock = (FencedCodeBlock) node;
+                String language = codeBlock.getInfo();
+                if (language != null && !language.isEmpty()) {
+                    // 只取语言名称的第一部分（去除可能的参数）
+                    String lang = language.split("\\s+")[0].toLowerCase();
+                    if ("code".equals(tagName)) {
+                        attributes.put("class", "language-" + lang);
+                    }
+                }
+            } else if (node instanceof IndentedCodeBlock) {
+                if ("code".equals(tagName)) {
+                    attributes.put("class", "language-plaintext");
+                }
+            }
+        }
     }
     
     /**

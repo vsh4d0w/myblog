@@ -10,6 +10,8 @@ import com.lzq.myblog.entity.BlogPost;
 import com.lzq.myblog.exception.BusinessException;
 import com.lzq.myblog.mapper.BlogPostMapper;
 import com.lzq.myblog.service.BlogPostService;
+import com.lzq.myblog.service.FileService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
@@ -20,7 +22,10 @@ import org.springframework.util.StringUtils;
  * 博文服务实现
  */
 @Service
+@RequiredArgsConstructor
 public class BlogPostServiceImpl extends ServiceImpl<BlogPostMapper, BlogPost> implements BlogPostService {
+    
+    private final FileService fileService;
     
     @Override
     @Caching(evict = {
@@ -29,7 +34,10 @@ public class BlogPostServiceImpl extends ServiceImpl<BlogPostMapper, BlogPost> i
     public BlogPost create(PostCreateDTO createDTO, Long authorId) {
         BlogPost post = new BlogPost();
         post.setTitle(createDTO.getTitle());
-        post.setContent(createDTO.getContent());
+        
+        // 处理内容中的外部图片，下载并替换为本地路径
+        String processedContent = fileService.processMarkdownImages(createDTO.getContent(), "posts");
+        post.setContent(processedContent);
         
         // 摘要：如果没有提供，自动截取内容前200字
         if (StringUtils.hasText(createDTO.getSummary())) {
@@ -64,7 +72,9 @@ public class BlogPostServiceImpl extends ServiceImpl<BlogPostMapper, BlogPost> i
             post.setTitle(updateDTO.getTitle());
         }
         if (StringUtils.hasText(updateDTO.getContent())) {
-            post.setContent(updateDTO.getContent());
+            // 处理内容中的外部图片，下载并替换为本地路径
+            String processedContent = fileService.processMarkdownImages(updateDTO.getContent(), "posts");
+            post.setContent(processedContent);
         }
         if (StringUtils.hasText(updateDTO.getSummary())) {
             post.setSummary(updateDTO.getSummary());
