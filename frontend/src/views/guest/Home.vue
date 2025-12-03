@@ -11,7 +11,7 @@
         </div>
       </div>
       <div class="hero-content">
-        <div class="hero-badge">🚀 Welcome to my blog</div>
+        <div class="hero-badge">Welcome to sh4d0w's blog</div>
         <h1 class="hero-title">sh4d0w's Blog</h1>
         <p class="hero-subtitle">探索 · 学习 · 分享</p>
         <div class="hero-stats">
@@ -118,7 +118,7 @@
               <img src="@/assets/images/admin-avatar.jpg" alt="sh4d0w" class="avatar-img" />
             </div>
             <h4 class="about-name">sh4d0w</h4>
-            <p class="about-bio">网络安全爱好者 | 全栈开发者</p>
+            <p class="about-bio">技术分享小站</p>
             <div class="about-links">
               <el-button circle :icon="Link" />
             </div>
