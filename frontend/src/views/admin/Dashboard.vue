@@ -96,8 +96,7 @@
 import { ref, onMounted } from 'vue'
 import { useUserStore } from '@/store/user'
 import { Document, ChatDotRound, User, View, Edit, HomeFilled } from '@element-plus/icons-vue'
-import { getPosts } from '@/api/post'
-import { getAllUsers, getAllComments } from '@/api/admin'
+import { getStats } from '@/api/admin'
 
 const userStore = useUserStore()
 
@@ -112,22 +111,12 @@ const currentTime = ref(new Date().toLocaleString('zh-CN'))
 
 const fetchStats = async () => {
   try {
-    // 获取文章统计
-    const postRes = await getPosts({ page: 1, size: 1 })
-    if (postRes.code === 200) {
-      stats.value.postCount = postRes.data?.total || 0
-    }
-    
-    // 获取用户统计
-    const userRes = await getAllUsers({ page: 1, size: 1 })
-    if (userRes.code === 200) {
-      stats.value.userCount = userRes.data?.total || 0
-    }
-    
-    // 获取评论统计
-    const commentRes = await getAllComments({ page: 1, size: 1 })
-    if (commentRes.code === 200) {
-      stats.value.commentCount = commentRes.data?.total || 0
+    const res = await getStats()
+    if (res.code === 200 && res.data) {
+      stats.value.postCount = res.data.postCount || 0
+      stats.value.userCount = res.data.userCount || 0
+      stats.value.commentCount = res.data.commentCount || 0
+      stats.value.viewCount = res.data.viewCount || 0
     }
   } catch (error) {
     console.error('获取统计数据失败:', error)

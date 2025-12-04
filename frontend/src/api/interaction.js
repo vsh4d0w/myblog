@@ -21,26 +21,6 @@ export function unlikePost(postId) {
 }
 
 /**
- * 收藏博文
- */
-export function favoritePost(postId) {
-  return request({
-    url: `/interaction/favorite/${postId}`,
-    method: 'post'
-  })
-}
-
-/**
- * 取消收藏
- */
-export function unfavoritePost(postId) {
-  return request({
-    url: `/interaction/favorite/${postId}`,
-    method: 'delete'
-  })
-}
-
-/**
  * 获取博文互动状态
  */
 export function getInteractionStatus(postId) {

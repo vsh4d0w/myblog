@@ -153,4 +153,9 @@ public class BlogPostServiceImpl extends ServiceImpl<BlogPostMapper, BlogPost> i
     public void incrementViewCount(Long postId) {
         baseMapper.incrementViewCount(postId);
     }
+    
+    @Override
+    public Long getTotalViewCount() {
+        return baseMapper.getTotalViewCount();
+    }
 }

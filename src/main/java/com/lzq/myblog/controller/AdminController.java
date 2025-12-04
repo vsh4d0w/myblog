@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.lzq.myblog.common.Result;
 import com.lzq.myblog.entity.Comment;
 import com.lzq.myblog.entity.User;
+import com.lzq.myblog.service.BlogPostService;
 import com.lzq.myblog.service.CommentService;
 import com.lzq.myblog.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -30,6 +31,7 @@ public class AdminController {
     
     private final UserService userService;
     private final CommentService commentService;
+    private final BlogPostService blogPostService;
     
     /**
      * 获取所有游客用户
@@ -116,5 +118,19 @@ public class AdminController {
     public Result<Void> deleteComment(@Parameter(description = "评论ID") @PathVariable Long id) {
         commentService.removeById(id);
         return Result.success("评论已删除", null);
+    }
+    
+    /**
+     * 获取仪表盘统计数据
+     */
+    @Operation(summary = "获取统计数据", description = "获取用户总数、文章总数、评论总数、总浏览量")
+    @GetMapping("/stats")
+    public Result<Map<String, Object>> getStats() {
+        Map<String, Object> stats = new HashMap<>();
+        stats.put("userCount", userService.count());
+        stats.put("postCount", blogPostService.count());
+        stats.put("commentCount", commentService.count());
+        stats.put("viewCount", blogPostService.getTotalViewCount());
+        return Result.success(stats);
     }
 }

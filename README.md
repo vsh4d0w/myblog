@@ -1,50 +1,40 @@
-# 个人博客系统 (MyBlog)
+# MyBlog 个人博客系统
 
-基于 Spring Boot 3.2 + Vue 3 的个人博客系统。
+基于 **Spring Boot 3.2 + Vue 3** 构建的全栈博客系统。
 
 ## 技术栈
 
-### 后端
-- Spring Boot 3.2.0
-- Spring Security + JWT
-- MyBatis-Plus 3.5.5
-- MySQL 8.0
-- Java 17
+| 后端 | 前端 |
+|------|------|
+| Spring Boot 3.2.0 | Vue 3 + Vite |
+| Spring Security + JWT | Element Plus |
+| MyBatis-Plus 3.5.5 | Vue Router + Pinia |
+| MySQL 8.0 | Axios |
+| Java 17 | highlight.js |
 
-### 前端
-- Vue 3
-- Vite
-- Vue Router 4
-- Pinia
-- Element Plus
-- Axios
-
-## 快速开始
+## 快速启动
 
 ### 环境要求
 - JDK 17+
 - Node.js 18+
 - MySQL 8.0+
 
-### 1. 数据库初始化
-
+### 1. 初始化数据库
 ```bash
 mysql -u root -p < src/main/resources/sql/init.sql
 ```
 
-### 2. 启动后端服务（端口 8080）
-
+### 2. 启动后端 (端口 8080)
 ```bash
-cd /Users/lanzhiqiang/code/java_code/myBlog && ./mvnw spring-boot:run
+./mvnw spring-boot:run
 ```
 
-### 3. 启动前端服务（端口 5173）
-
+### 3. 启动前端 (端口 5173)
 ```bash
-cd /Users/lanzhiqiang/code/java_code/myBlog/frontend && npm run dev
+cd frontend && npm install && npm run dev
 ```
 
-## 访问地址
+### 4. 访问地址
 
 | 服务 | 地址 |
 |------|------|
@@ -52,48 +42,44 @@ cd /Users/lanzhiqiang/code/java_code/myBlog/frontend && npm run dev
 | 后端 API | http://localhost:8080 |
 | API 文档 | http://localhost:8080/doc.html |
 
-## 测试账号
+### 5. 测试账号
 
 | 角色 | 用户名 | 密码 |
 |------|--------|------|
 | 管理员 | sh4d0w | 467194403 |
 
-## 主要功能
+## 功能特性
 
-- ✅ 用户认证（登录/注册）
-- ✅ 博文管理（增删改查）
-- ✅ 分类管理
-- ✅ 标签管理
-- ✅ 评论系统
-- ✅ 点赞/收藏
-- ✅ Markdown 编辑器
-- ✅ 文件上传
-- ✅ 管理后台
+- ✅ 用户认证（登录/注册/JWT）
+- ✅ 博文管理（增删改查/分类/搜索）
+- ✅ Markdown 编辑器 + 代码高亮
+- ✅ 评论系统（发表/回复）
+- ✅ 点赞功能
+- ✅ 图片上传（支持本地图片自动处理）
+- ✅ 管理后台（仪表盘/用户管理/评论审核）
+- ✅ Knife4j API 文档
 
 ## 项目结构
 
 ```
 myBlog/
-├── src/main/java/          # 后端 Java 代码
-│   └── com/lzq/myblog/
-│       ├── controller/     # 控制器层
-│       ├── service/        # 服务层
-│       ├── mapper/         # 数据访问层
-│       ├── entity/         # 实体类
-│       ├── dto/            # 数据传输对象
-│       ├── config/         # 配置类
-│       ├── filter/         # 过滤器
-│       └── utils/          # 工具类
-├── src/main/resources/     # 后端资源文件
+├── src/main/java/com/lzq/myblog/
+│   ├── controller/     # 控制器
+│   ├── service/        # 业务逻辑
+│   ├── mapper/         # 数据访问
+│   ├── entity/         # 实体类
+│   ├── dto/            # 数据传输对象
+│   ├── config/         # 配置类
+│   └── filter/         # JWT过滤器
+├── src/main/resources/
 │   ├── application.properties
 │   └── sql/init.sql
-└── frontend/               # 前端 Vue 项目
+└── frontend/           # Vue 3 前端
     ├── src/
-    │   ├── views/          # 页面组件
-    │   ├── components/     # 公共组件
-    │   ├── api/            # API 接口
-    │   ├── store/          # 状态管理
-    │   └── router/         # 路由配置
+    │   ├── views/      # 页面组件
+    │   ├── api/        # API 接口
+    │   ├── store/      # 状态管理
+    │   └── router/     # 路由配置
     └── package.json
 ```
 

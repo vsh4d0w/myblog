@@ -31,4 +31,10 @@ public interface UserMapper extends BaseMapper<User> {
      */
     @Select("SELECT COUNT(*) FROM user WHERE role = #{role}")
     int countByRole(@Param("role") String role);
+    
+    /**
+     * 获取所有用户数量
+     */
+    @Select("SELECT COUNT(*) FROM user")
+    int countAll();
 }

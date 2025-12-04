@@ -35,6 +35,18 @@
           
           <div class="post-content" v-html="processedContentHtml"></div>
           
+          <!-- 点赞区域 -->
+          <div class="interaction-bar">
+            <el-button 
+              :type="isLiked ? 'danger' : 'default'" 
+              :icon="Star"
+              @click="handleLike"
+              :loading="likeLoading"
+            >
+              {{ isLiked ? '已点赞' : '点赞' }} ({{ likeCount }})
+            </el-button>
+          </div>
+          
           <!-- 评论区 -->
           <section class="comment-section">
             <h3>评论 ({{ comments.length }})</h3>
@@ -50,7 +62,7 @@
               <el-button
                 type="primary"
                 :loading="submitting"
-                @click="submitComment"
+                @click="submitComment()"
               >
                 发表评论
               </el-button>
@@ -77,7 +89,33 @@
                     <span class="comment-time">{{ formatDate(comment.createTime) }}</span>
                   </div>
                 </div>
-                <div class="comment-body">{{ comment.content }}</div>
+                <div class="comment-body">
+                  <span v-if="comment.replyToUsername" class="reply-to">
+                    回复 @{{ comment.replyToUsername }}：
+                  </span>
+                  {{ comment.content }}
+                </div>
+                <div class="comment-actions" v-if="userStore.isLoggedIn">
+                  <el-button type="primary" link size="small" @click="showReplyForm(comment)">
+                    回复
+                  </el-button>
+                </div>
+                
+                <!-- 回复表单 -->
+                <div v-if="replyingTo?.id === comment.id" class="reply-form">
+                  <el-input
+                    v-model="replyContent"
+                    type="textarea"
+                    :rows="2"
+                    :placeholder="'回复 @' + (comment.authorNickname || comment.authorName)"
+                  />
+                  <div class="reply-actions">
+                    <el-button size="small" @click="cancelReply">取消</el-button>
+                    <el-button type="primary" size="small" :loading="submitting" @click="submitReply(comment)">
+                      回复
+                    </el-button>
+                  </div>
+                </div>
               </div>
               
               <el-empty v-if="comments.length === 0" description="暂无评论" />
@@ -97,7 +135,8 @@ import { useRoute } from 'vue-router'
 import { useUserStore } from '@/store/user'
 import { getPostDetail } from '@/api/post'
 import { getCommentsByPost, createComment } from '@/api/comment'
-import { User, Calendar, Folder, View, UserFilled } from '@element-plus/icons-vue'
+import { likePost, unlikePost, getInteractionStatus } from '@/api/interaction'
+import { User, Calendar, Folder, View, UserFilled, Star } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
 import { getImageUrl, API_BASE_URL } from '@/utils/common'
 import hljs from 'highlight.js'
@@ -111,6 +150,15 @@ const post = ref(null)
 const comments = ref([])
 const newComment = ref('')
 const submitting = ref(false)
+
+// 点赞相关
+const likeCount = ref(0)
+const isLiked = ref(false)
+const likeLoading = ref(false)
+
+// 回复相关
+const replyingTo = ref(null)
+const replyContent = ref('')
 
 // 处理文章内容中的图片路径，添加后端地址前缀
 const processedContentHtml = computed(() => {
@@ -204,9 +252,98 @@ const submitComment = async () => {
   }
 }
 
+// 显示回复表单
+const showReplyForm = (comment) => {
+  replyingTo.value = comment
+  replyContent.value = ''
+}
+
+// 取消回复
+const cancelReply = () => {
+  replyingTo.value = null
+  replyContent.value = ''
+}
+
+// 提交回复
+const submitReply = async (comment) => {
+  if (!replyContent.value.trim()) {
+    ElMessage.warning('请输入回复内容')
+    return
+  }
+  
+  submitting.value = true
+  try {
+    const res = await createComment({
+      postId: route.params.id,
+      content: replyContent.value,
+      parentId: comment.id,
+      replyToUserId: comment.userId
+    })
+    
+    if (res.code === 200) {
+      ElMessage.success('回复成功')
+      cancelReply()
+      fetchComments()
+    } else {
+      ElMessage.error(res.message || '回复失败')
+    }
+  } catch (error) {
+    ElMessage.error('回复失败')
+  } finally {
+    submitting.value = false
+  }
+}
+
+// 获取互动状态
+const fetchInteractionStatus = async () => {
+  try {
+    const res = await getInteractionStatus(route.params.id)
+    if (res.code === 200) {
+      likeCount.value = res.data.likeCount || 0
+      isLiked.value = res.data.isLiked || false
+    }
+  } catch (error) {
+    console.error('获取互动状态失败:', error)
+  }
+}
+
+// 处理点赞
+const handleLike = async () => {
+  if (!userStore.isLoggedIn) {
+    ElMessage.warning('请先登录')
+    return
+  }
+  
+  likeLoading.value = true
+  try {
+    if (isLiked.value) {
+      const res = await unlikePost(route.params.id)
+      if (res.code === 200) {
+        isLiked.value = false
+        likeCount.value--
+        ElMessage.success('取消点赞')
+      }
+    } else {
+      const res = await likePost(route.params.id)
+      if (res.code === 200) {
+        isLiked.value = true
+        likeCount.value++
+        ElMessage.success('点赞成功')
+      } else {
+        ElMessage.error(res.message || '点赞失败')
+      }
+    }
+  } catch (error) {
+    ElMessage.error('操作失败')
+  } finally {
+    likeLoading.value = false
+  }
+}
+
 onMounted(() => {
   fetchPost()
   fetchComments()
+  fetchInteractionStatus()
 })
 </script>
 
@@ -380,9 +517,43 @@ onMounted(() => {
   }
   
   .comment-body {
-    margin-left: 48px;
+    margin-left: 52px;
     color: #606266;
     line-height: 1.6;
+    
+    .reply-to {
+      color: #409eff;
+      font-weight: 500;
+    }
   }
+  
+  .comment-actions {
+    margin-left: 52px;
+    margin-top: 8px;
+  }
+  
+  .reply-form {
+    margin-left: 52px;
+    margin-top: 12px;
+    padding: 12px;
+    background: #f5f7fa;
+    border-radius: 8px;
+    
+    .reply-actions {
+      margin-top: 10px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+  }
+}
+
+.interaction-bar {
+  margin-top: 30px;
+  padding: 20px 0;
+  border-top: 1px solid #ebeef5;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
 }
 </style>

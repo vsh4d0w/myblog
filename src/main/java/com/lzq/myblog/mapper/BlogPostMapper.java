@@ -32,4 +32,10 @@ public interface BlogPostMapper extends BaseMapper<BlogPost> {
      */
     @Update("UPDATE blog_post SET view_count = view_count + 1 WHERE id = #{id}")
     int incrementViewCount(@Param("id") Long id);
+    
+    /**
+     * 获取所有文章的总浏览量
+     */
+    @Select("SELECT COALESCE(SUM(view_count), 0) FROM blog_post")
+    Long getTotalViewCount();
 }

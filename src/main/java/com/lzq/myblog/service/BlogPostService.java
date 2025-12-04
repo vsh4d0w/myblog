@@ -71,4 +71,10 @@ public interface BlogPostService extends IService<BlogPost> {
      * @param postId 博文ID
      */
     void incrementViewCount(Long postId);
+    
+    /**
+     * 获取所有文章的总浏览量
+     * @return 总浏览量
+     */
+    Long getTotalViewCount();
 }

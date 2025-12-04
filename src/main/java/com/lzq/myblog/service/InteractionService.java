@@ -21,24 +21,4 @@ public interface InteractionService {
      * 获取博文点赞数
      */
     int getLikeCount(Long postId);
-    
-    /**
-     * 收藏博文
-     */
-    boolean favoritePost(Long postId, Long userId);
-    
-    /**
-     * 取消收藏
-     */
-    boolean unfavoritePost(Long postId, Long userId);
-    
-    /**
-     * 检查是否收藏
-     */
-    boolean isFavorited(Long postId, Long userId);
-    
-    /**
-     * 获取博文收藏数
-     */
-    int getFavoriteCount(Long postId);
 }
