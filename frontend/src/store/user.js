@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
-import { login, register, getCurrentUser, sendCode } from '@/api/auth'
+import { login, register, getCurrentUser } from '@/api/auth'
 import router from '@/router'
 
 export const useUserStore = defineStore('user', () => {
@@ -46,15 +46,6 @@ export const useUserStore = defineStore('user', () => {
     throw new Error(res.message || '注册失败')
   }
   
-  // 发送验证码
-  async function sendCodeAction(email) {
-    const res = await sendCode(email)
-    if (res.code === 200) {
-      return res
-    }
-    throw new Error(res.message || '发送验证码失败')
-  }
-  
   // 获取当前用户信息
   async function fetchUserInfo() {
     if (!token.value) return null
@@ -94,7 +85,6 @@ export const useUserStore = defineStore('user', () => {
     setUserInfo,
     loginAction,
     registerAction,
-    sendCodeAction,
     fetchUserInfo,
     logout
   }
