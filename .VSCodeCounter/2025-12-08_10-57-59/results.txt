@@ -1,0 +1,155 @@
+Date : 2025-12-08 10:57:59
+Directory : /Users/lanzhiqiang/code/java_code/myBlog
+Total : 80 files,  6017 codes, 941 comments, 868 blanks, all 7826 lines
+
+Languages
++-----------------+------------+------------+------------+------------+------------+
+| language        | files      | code       | comment    | blank      | total      |
++-----------------+------------+------------+------------+------------+------------+
+| JSON            |          2 |      2,483 |          0 |          2 |      2,485 |
+| Java            |         52 |      2,150 |        752 |        602 |      3,504 |
+| JavaScript      |         14 |        485 |        103 |         92 |        680 |
+| Markdown        |          3 |        296 |          0 |         73 |        369 |
+| XML             |          2 |        143 |         17 |         16 |        176 |
+| Batch           |          1 |        139 |         26 |         25 |        190 |
+| SCSS            |          1 |        115 |          4 |         25 |        144 |
+| MS SQL          |          1 |         77 |         27 |          9 |        113 |
+| PostCSS         |          1 |         70 |          0 |         10 |         80 |
+| Java Properties |          2 |         46 |         12 |         13 |         71 |
+| HTML            |          1 |         13 |          0 |          1 |         14 |
++-----------------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                           | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                              |         80 |      6,017 |        941 |        868 |      7,826 |
+| . (Files)                                                                                                      |          4 |        574 |         43 |        111 |        728 |
+| .mvn                                                                                                           |          1 |          3 |          0 |          1 |          4 |
+| .mvn/wrapper                                                                                                   |          1 |          3 |          0 |          1 |          4 |
+| frontend                                                                                                       |         21 |      3,170 |        107 |        133 |      3,410 |
+| frontend (Files)                                                                                               |          5 |      2,519 |          1 |          8 |      2,528 |
+| frontend/public                                                                                                |          1 |          1 |          0 |          0 |          1 |
+| frontend/src                                                                                                   |         15 |        650 |        106 |        125 |        881 |
+| frontend/src (Files)                                                                                           |          2 |         87 |          1 |         16 |        104 |
+| frontend/src/api                                                                                               |          8 |        180 |         57 |         46 |        283 |
+| frontend/src/router                                                                                            |          1 |        117 |         10 |         13 |        140 |
+| frontend/src/store                                                                                             |          1 |         71 |         11 |         10 |         92 |
+| frontend/src/styles                                                                                            |          1 |        115 |          4 |         25 |        144 |
+| frontend/src/utils                                                                                             |          2 |         80 |         23 |         15 |        118 |
+| src                                                                                                            |         54 |      2,270 |        791 |        623 |      3,684 |
+| src/main                                                                                                       |         53 |      2,261 |        791 |        618 |      3,670 |
+| src/main/java                                                                                                  |         51 |      2,141 |        752 |        597 |      3,490 |
+| src/main/java/com                                                                                              |         51 |      2,141 |        752 |        597 |      3,490 |
+| src/main/java/com/lzq                                                                                          |         51 |      2,141 |        752 |        597 |      3,490 |
+| src/main/java/com/lzq/myblog                                                                                   |         51 |      2,141 |        752 |        597 |      3,490 |
+| src/main/java/com/lzq/myblog (Files)                                                                           |          1 |          9 |          0 |          4 |         13 |
+| src/main/java/com/lzq/myblog/common                                                                            |          1 |         38 |         27 |         14 |         79 |
+| src/main/java/com/lzq/myblog/config                                                                            |          6 |        253 |         63 |         55 |        371 |
+| src/main/java/com/lzq/myblog/controller                                                                        |          8 |        509 |        110 |         99 |        718 |
+| src/main/java/com/lzq/myblog/dto                                                                               |          8 |        121 |         63 |         67 |        251 |
+| src/main/java/com/lzq/myblog/entity                                                                            |          5 |         98 |         43 |         56 |        197 |
+| src/main/java/com/lzq/myblog/exception                                                                         |          2 |         63 |         18 |         17 |         98 |
+| src/main/java/com/lzq/myblog/filter                                                                            |          1 |         49 |         12 |         14 |         75 |
+| src/main/java/com/lzq/myblog/mapper                                                                            |          4 |         85 |         54 |         30 |        169 |
+| src/main/java/com/lzq/myblog/service                                                                           |         13 |        820 |        306 |        211 |      1,337 |
+| src/main/java/com/lzq/myblog/service (Files)                                                                   |          7 |        167 |        251 |         77 |        495 |
+| src/main/java/com/lzq/myblog/service/impl                                                                      |          6 |        653 |         55 |        134 |        842 |
+| src/main/java/com/lzq/myblog/utils                                                                             |          1 |         79 |         40 |         16 |        135 |
+| src/main/java/com/lzq/myblog/vo                                                                                |          1 |         17 |         16 |         14 |         47 |
+| src/main/resources                                                                                             |          2 |        120 |         39 |         21 |        180 |
+| src/main/resources (Files)                                                                                     |          1 |         43 |         12 |         12 |         67 |
+| src/main/resources/sql                                                                                         |          1 |         77 |         27 |          9 |        113 |
+| src/test                                                                                                       |          1 |          9 |          0 |          5 |         14 |
+| src/test/java                                                                                                  |          1 |          9 |          0 |          5 |         14 |
+| src/test/java/com                                                                                              |          1 |          9 |          0 |          5 |         14 |
+| src/test/java/com/lzq                                                                                          |          1 |          9 |          0 |          5 |         14 |
+| src/test/java/com/lzq/myblog                                                                                   |          1 |          9 |          0 |          5 |         14 |
++----------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------------------------------------------------------+-----------------+------------+------------+------------+------------+
+| filename                                                                                                       | language        | code       | comment    | blank      | total      |
++----------------------------------------------------------------------------------------------------------------+-----------------+------------+------------+------------+------------+
+| /Users/lanzhiqiang/code/java_code/myBlog/.mvn/wrapper/maven-wrapper.properties                                 | Java Properties |          3 |          0 |          1 |          4 |
+| /Users/lanzhiqiang/code/java_code/myBlog/README.md                                                             | Markdown        |         70 |          0 |         19 |         89 |
+| /Users/lanzhiqiang/code/java_code/myBlog/frontend/README.md                                                    | Markdown        |          3 |          0 |          3 |          6 |
+| /Users/lanzhiqiang/code/java_code/myBlog/frontend/index.html                                                   | HTML            |         13 |          0 |          1 |         14 |
+| /Users/lanzhiqiang/code/java_code/myBlog/frontend/package-lock.json                                            | JSON            |      2,457 |          0 |          1 |      2,458 |
+| /Users/lanzhiqiang/code/java_code/myBlog/frontend/package.json                                                 | JSON            |         26 |          0 |          1 |         27 |
+| /Users/lanzhiqiang/code/java_code/myBlog/frontend/public/vite.svg                                              | XML             |          1 |          0 |          0 |          1 |
+| /Users/lanzhiqiang/code/java_code/myBlog/frontend/src/api/admin.js                                             | JavaScript      |         41 |          6 |          7 |         54 |
+| /Users/lanzhiqiang/code/java_code/myBlog/frontend/src/api/auth.js                                              | JavaScript      |         16 |          5 |          6 |         27 |
+| /Users/lanzhiqiang/code/java_code/myBlog/frontend/src/api/category.js                                          | JavaScript      |         33 |         15 |          6 |         54 |
+| /Users/lanzhiqiang/code/java_code/myBlog/frontend/src/api/comment.js                                           | JavaScript      |         13 |          4 |          5 |         22 |
+| /Users/lanzhiqiang/code/java_code/myBlog/frontend/src/api/interaction.js                                       | JavaScript      |         19 |          9 |          4 |         32 |
+| /Users/lanzhiqiang/code/java_code/myBlog/frontend/src/api/markdown.js                                          | JavaScript      |          7 |          2 |          3 |         12 |
+| /Users/lanzhiqiang/code/java_code/myBlog/frontend/src/api/post.js                                              | JavaScript      |         22 |          7 |          8 |         37 |
+| /Users/lanzhiqiang/code/java_code/myBlog/frontend/src/api/upload.js                                            | JavaScript      |         29 |          9 |          7 |         45 |
+| /Users/lanzhiqiang/code/java_code/myBlog/frontend/src/main.js                                                  | JavaScript      |         17 |          1 |          6 |         24 |
+| /Users/lanzhiqiang/code/java_code/myBlog/frontend/src/router/index.js                                          | JavaScript      |        117 |         10 |         13 |        140 |
+| /Users/lanzhiqiang/code/java_code/myBlog/frontend/src/store/user.js                                            | JavaScript      |         71 |         11 |         10 |         92 |
+| /Users/lanzhiqiang/code/java_code/myBlog/frontend/src/style.css                                                | PostCSS         |         70 |          0 |         10 |         80 |
+| /Users/lanzhiqiang/code/java_code/myBlog/frontend/src/styles/global.scss                                       | SCSS            |        115 |          4 |         25 |        144 |
+| /Users/lanzhiqiang/code/java_code/myBlog/frontend/src/utils/common.js                                          | JavaScript      |         15 |         16 |          4 |         35 |
+| /Users/lanzhiqiang/code/java_code/myBlog/frontend/src/utils/request.js                                         | JavaScript      |         65 |          7 |         11 |         83 |
+| /Users/lanzhiqiang/code/java_code/myBlog/frontend/vite.config.js                                               | JavaScript      |         20 |          1 |          2 |         23 |
+| /Users/lanzhiqiang/code/java_code/myBlog/mvnw.cmd                                                              | Batch           |        139 |         26 |         25 |        190 |
+| /Users/lanzhiqiang/code/java_code/myBlog/pom.xml                                                               | XML             |        142 |         17 |         16 |        175 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/MyBlogApplication.java                   | Java            |          9 |          0 |          4 |         13 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/common/Result.java                       | Java            |         38 |         27 |         14 |         79 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/config/Knife4jConfig.java                | Java            |         43 |          4 |          4 |         51 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/config/MyBatisPlusConfig.java            | Java            |         15 |          6 |          4 |         25 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/config/MyMetaObjectHandler.java          | Java            |         17 |          4 |          6 |         27 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/config/RedisConfig.java                  | Java            |         74 |         26 |         20 |        120 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/config/SecurityConfig.java               | Java            |         87 |         21 |         15 |        123 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/config/WebConfig.java                    | Java            |         17 |          2 |          6 |         25 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/controller/AdminController.java          | Java            |         95 |         25 |         17 |        137 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/controller/AuthController.java           | Java            |         94 |         22 |         23 |        139 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/controller/CategoryController.java       | Java            |         45 |          9 |          7 |         61 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/controller/CommentController.java        | Java            |         60 |         15 |         12 |         87 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/controller/InteractionController.java    | Java            |         59 |          3 |         12 |         74 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/controller/MarkdownController.java       | Java            |         29 |         10 |          6 |         45 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/controller/PostController.java           | Java            |         84 |         26 |         14 |        124 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/controller/UploadController.java         | Java            |         43 |          0 |          8 |         51 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/dto/CommentCreateDTO.java                | Java            |         13 |          5 |          7 |         25 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/dto/MarkdownRenderDTO.java               | Java            |          9 |          9 |          5 |         23 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/dto/PostCreateDTO.java                   | Java            |         15 |          7 |          9 |         31 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/dto/PostDetailDTO.java                   | Java            |         36 |         20 |         18 |         74 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/dto/PostUpdateDTO.java                   | Java            |         14 |          9 |         10 |         33 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/dto/UserLoginDTO.java                    | Java            |         10 |          3 |          5 |         18 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/dto/UserRegisterDTO.java                 | Java            |         15 |          3 |          6 |         24 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/dto/UserUpdateDTO.java                   | Java            |          9 |          7 |          7 |         23 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/entity/BlogPost.java                     | Java            |         22 |         11 |         15 |         48 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/entity/Category.java                     | Java            |         21 |          3 |          6 |         30 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/entity/Comment.java                      | Java            |         20 |          9 |         13 |         42 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/entity/PostLike.java                     | Java            |         14 |          9 |          8 |         31 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/entity/User.java                         | Java            |         21 |         11 |         14 |         46 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/exception/BusinessException.java         | Java            |         18 |          3 |          7 |         28 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/exception/GlobalExceptionHandler.java    | Java            |         45 |         15 |         10 |         70 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/filter/JwtAuthenticationFilter.java      | Java            |         49 |         12 |         14 |         75 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/mapper/BlogPostMapper.java               | Java            |         19 |         15 |          8 |         42 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/mapper/CommentMapper.java                | Java            |         35 |         18 |          9 |         62 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/mapper/PostLikeMapper.java               | Java            |         13 |          6 |          5 |         24 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/mapper/UserMapper.java                   | Java            |         18 |         15 |          8 |         41 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/service/BlogPostService.java             | Java            |         17 |         52 |         12 |         81 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/service/CacheService.java                | Java            |         16 |         36 |         14 |         66 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/service/CommentService.java              | Java            |         16 |         47 |         12 |         75 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/service/FileService.java                 | Java            |          8 |         22 |          7 |         37 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/service/InteractionService.java          | Java            |          7 |         12 |          6 |         25 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/service/MarkdownService.java             | Java            |         87 |         35 |         14 |        136 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/service/UserService.java                 | Java            |         16 |         47 |         12 |         75 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/service/impl/BlogPostServiceImpl.java    | Java            |        137 |          6 |         19 |        162 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/service/impl/CacheServiceImpl.java       | Java            |        117 |          4 |         17 |        138 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/service/impl/CommentServiceImpl.java     | Java            |         65 |          4 |         16 |         85 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/service/impl/FileServiceImpl.java        | Java            |        190 |         30 |         47 |        267 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/service/impl/InteractionServiceImpl.java | Java            |         36 |          0 |          8 |         44 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/service/impl/UserServiceImpl.java        | Java            |        108 |         11 |         27 |        146 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/utils/JwtUtils.java                      | Java            |         79 |         40 |         16 |        135 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/java/com/lzq/myblog/vo/CommentVO.java                        | Java            |         17 |         16 |         14 |         47 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/resources/application.properties                             | Java Properties |         43 |         12 |         12 |         67 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/main/resources/sql/init.sql                                       | MS SQL          |         77 |         27 |          9 |        113 |
+| /Users/lanzhiqiang/code/java_code/myBlog/src/test/java/com/lzq/myblog/MyBlogApplicationTests.java              | Java            |          9 |          0 |          5 |         14 |
+| /Users/lanzhiqiang/code/java_code/myBlog/项目开发进度文档.md                                                           | Markdown        |        223 |          0 |         51 |        274 |
+| Total                                                                                                          |                 |      6,017 |        941 |        868 |      7,826 |
++----------------------------------------------------------------------------------------------------------------+-----------------+------------+------------+------------+------------+
